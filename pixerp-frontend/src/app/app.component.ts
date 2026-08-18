@@ -39,7 +39,7 @@ import { AuthService } from './services/auth.service';
               </div>
             </div>
             <button class="btn-logout" (click)="authService.logout()">Logout</button>
-            <p class="brand">Pixel Software Design</p>
+            <p class="copyright">&copy; 2026 Pixel Software Design</p>
           </div>
         </nav>
         <main class="main-content"><router-outlet></router-outlet></main>
@@ -66,7 +66,7 @@ import { AuthService } from './services/auth.service';
     .user-role { font-size: 0.7rem; color: #5eead4; }
     .btn-logout { width: 100%; padding: 8px; background: rgba(220,38,38,0.15); color: #fca5a5; border: 1px solid rgba(220,38,38,0.3); border-radius: 6px; cursor: pointer; font-size: 0.8rem; margin-bottom: 10px; transition: all 0.2s; }
     .btn-logout:hover { background: rgba(220,38,38,0.3); color: #fecaca; }
-    .brand { margin: 0; font-size: 0.75rem; color: #0d9488; }
+    .copyright { margin: 0; font-size: 0.7rem; color: #0d9488; text-align: center; }
     .app-switcher { padding: 10px 20px; border-top: 1px solid rgba(255,255,255,0.1); }
     .switcher-label { margin: 0 0 8px; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; color: #6b7280; }
     .switcher-link { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 6px; text-decoration: none; color: #ccfbf1; font-size: 0.85rem; transition: all 0.2s; }

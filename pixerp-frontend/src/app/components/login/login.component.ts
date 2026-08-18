@@ -40,6 +40,7 @@ import { AuthService } from '../../services/auth.service';
           <button type="submit" class="btn-primary" [disabled]="loading">{{ loading ? 'Creating...' : 'Create Account' }}</button>
         </form>
         <div class="demo-info"><p><strong>Demo:</strong> admin&#64;pixelsoftwaredesign.com / admin123</p></div>
+        <p class="copyright">&copy; 2026 Pixel Software Design</p>
       </div>
     </div>
   `,
@@ -62,6 +63,7 @@ import { AuthService } from '../../services/auth.service';
     .btn-primary:disabled { background: #9ca3af; cursor: not-allowed; }
     .demo-info { margin-top: 25px; padding-top: 20px; border-top: 1px solid #e5e7eb; text-align: center; }
     .demo-info p { margin: 4px 0; font-size: 0.8rem; color: #6b7280; }
+    .copyright { margin: 20px 0 0; text-align: center; font-size: 0.75rem; color: #9ca3af; }
   `]
 })
 export class LoginComponent {
