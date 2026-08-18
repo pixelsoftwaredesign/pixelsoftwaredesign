@@ -43,6 +43,8 @@ public class DataInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) {
         User admin = userRepository.save(new User("admin", "admin@pixelsoftwaredesign.com", passwordEncoder.encode("admin123"), User.Role.ADMIN));
+        User sales = userRepository.save(new User("sales1", "sales@pixelsoftwaredesign.com", passwordEncoder.encode("sales123"), User.Role.STAFF));
+        User pm = userRepository.save(new User("pm1", "pm@pixelsoftwaredesign.com", passwordEncoder.encode("pm123"), User.Role.MANAGER));
         User cashier = userRepository.save(new User("cashier1", "cashier@pixelsoftwaredesign.com", passwordEncoder.encode("cashier123"), User.Role.CASHIER));
 
         Category electronics = categoryRepository.save(new Category("Electronics", "Electronic devices and accessories"));
@@ -72,7 +74,7 @@ public class DataInitializer implements CommandLineRunner {
         Product p10 = new Product("Consultation Comptable (heure)", "SRVC-001", services, new BigDecimal("0.00"), new BigDecimal("150.00"), 999);
         p10.setUnit("HR"); productRepository.save(p10);
 
-        Department sales = departmentRepository.save(new Department("Sales", "Sales and customer relations department"));
+        Department salesDept = departmentRepository.save(new Department("Sales", "Sales and customer relations department"));
         Department operations = departmentRepository.save(new Department("Operations", "Operations and logistics department"));
 
         Employee e1 = new Employee();
@@ -81,7 +83,7 @@ public class DataInitializer implements CommandLineRunner {
         e1.setLastName("Ben Salah");
         e1.setEmail("ahmed.bensalah@pixerp.tn");
         e1.setPhone("+216 71 234 567");
-        e1.setDepartment(sales);
+        e1.setDepartment(salesDept);
         e1.setPosition("Sales Manager");
         e1.setHireDate(LocalDate.of(2023, 1, 15));
         e1.setSalary(new BigDecimal("1800.00"));
@@ -94,7 +96,7 @@ public class DataInitializer implements CommandLineRunner {
         e2.setLastName("Khelifi");
         e2.setEmail("fatma.khelifi@pixerp.tn");
         e2.setPhone("+216 74 345 678");
-        e2.setDepartment(sales);
+        e2.setDepartment(salesDept);
         e2.setPosition("Cashier");
         e2.setHireDate(LocalDate.of(2023, 6, 1));
         e2.setSalary(new BigDecimal("1200.00"));

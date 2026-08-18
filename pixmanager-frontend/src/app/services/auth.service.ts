@@ -25,7 +25,7 @@ export class AuthService {
   public currentUser$ = this.currentUserSubject.asObservable();
 
   constructor(private http: HttpClient, private router: Router) {
-    const stored = localStorage.getItem('currentUser');
+    const stored = localStorage.getItem('pixelsoft_user');
     if (stored) {
       this.currentUserSubject.next(JSON.parse(stored));
     }
@@ -34,14 +34,9 @@ export class AuthService {
   login(email: string, password: string): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/login`, { email, password }).pipe(
       tap(response => {
-        localStorage.setItem('token', response.token);
-        const user: UserInfo = {
-          id: response.userId,
-          username: response.username,
-          email: response.email,
-          role: response.role
-        };
-        localStorage.setItem('currentUser', JSON.stringify(user));
+        localStorage.setItem('pixelsoft_token', response.token);
+        const user: UserInfo = { id: response.userId, username: response.username, email: response.email, role: response.role };
+        localStorage.setItem('pixelsoft_user', JSON.stringify(user));
         this.currentUserSubject.next(user);
       })
     );
@@ -50,35 +45,22 @@ export class AuthService {
   register(username: string, email: string, password: string, role?: string): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/register`, { username, email, password, role }).pipe(
       tap(response => {
-        localStorage.setItem('token', response.token);
-        const user: UserInfo = {
-          id: response.userId,
-          username: response.username,
-          email: response.email,
-          role: response.role
-        };
-        localStorage.setItem('currentUser', JSON.stringify(user));
+        localStorage.setItem('pixelsoft_token', response.token);
+        const user: UserInfo = { id: response.userId, username: response.username, email: response.email, role: response.role };
+        localStorage.setItem('pixelsoft_user', JSON.stringify(user));
         this.currentUserSubject.next(user);
       })
     );
   }
 
   logout(): void {
-    localStorage.removeItem('token');
-    localStorage.removeItem('currentUser');
+    localStorage.removeItem('pixelsoft_token');
+    localStorage.removeItem('pixelsoft_user');
     this.currentUserSubject.next(null);
     this.router.navigate(['/login']);
   }
 
-  getToken(): string | null {
-    return localStorage.getItem('token');
-  }
-
-  isLoggedIn(): boolean {
-    return !!this.getToken();
-  }
-
-  getCurrentUser(): UserInfo | null {
-    return this.currentUserSubject.value;
-  }
+  getToken(): string | null { return localStorage.getItem('pixelsoft_token'); }
+  isLoggedIn(): boolean { return !!this.getToken(); }
+  getCurrentUser(): UserInfo | null { return this.currentUserSubject.value; }
 }

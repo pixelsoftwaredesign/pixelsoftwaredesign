@@ -23,6 +23,12 @@ import { AuthService } from './services/auth.service';
             <li routerLink="/accounting" routerLinkActive="active"><span class="icon">A</span> Accounting</li>
             <li routerLink="/settings" routerLinkActive="active"><span class="icon">S</span> Settings</li>
           </ul>
+          <div class="app-switcher">
+            <p class="switcher-label">Switch App</p>
+            <a href="http://localhost:4200" class="switcher-link">
+              <span class="icon">M</span> PixManager
+            </a>
+          </div>
           <div class="sidebar-footer">
             <div class="user-info" *ngIf="authService.getCurrentUser() as user">
               <div class="user-avatar">{{ user.username.charAt(0).toUpperCase() }}</div>
@@ -60,6 +66,10 @@ import { AuthService } from './services/auth.service';
     .btn-logout { width: 100%; padding: 8px; background: rgba(220,38,38,0.15); color: #fca5a5; border: 1px solid rgba(220,38,38,0.3); border-radius: 6px; cursor: pointer; font-size: 0.8rem; margin-bottom: 10px; transition: all 0.2s; }
     .btn-logout:hover { background: rgba(220,38,38,0.3); color: #fecaca; }
     .brand { margin: 0; font-size: 0.75rem; color: #0d9488; }
+    .app-switcher { padding: 10px 20px; border-top: 1px solid rgba(255,255,255,0.1); }
+    .switcher-label { margin: 0 0 8px; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; color: #6b7280; }
+    .switcher-link { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 6px; text-decoration: none; color: #ccfbf1; font-size: 0.85rem; transition: all 0.2s; }
+    .switcher-link:hover { background: rgba(255,255,255,0.1); color: white; background: rgba(99,102,241,0.2); color: #a5b4fc; }
     .main-content { flex: 1; background: #f8fafc; overflow-y: auto; }
   `]
 })
