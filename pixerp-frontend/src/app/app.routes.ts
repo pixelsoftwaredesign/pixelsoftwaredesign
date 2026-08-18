@@ -8,6 +8,7 @@ import { HrmComponent } from './components/hrm/hrm.component';
 import { AccountingComponent } from './components/accounting/accounting.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { CrmDataComponent } from './components/crm-data/crm-data.component';
+import { PricingComponent } from './components/pricing/pricing.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -18,5 +19,6 @@ export const routes: Routes = [
   { path: 'hrm', component: HrmComponent, canActivate: [AuthGuard] },
   { path: 'accounting', component: AccountingComponent, canActivate: [AuthGuard] },
   { path: 'crm-data', component: CrmDataComponent, canActivate: [AuthGuard] },
+  { path: 'pricing', component: PricingComponent, canActivate: [AuthGuard] },
   { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] },
 ];

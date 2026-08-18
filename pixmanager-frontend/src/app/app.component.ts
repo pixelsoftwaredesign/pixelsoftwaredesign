@@ -34,6 +34,9 @@ import { AuthService } from './services/auth.service';
             <li routerLink="/analytics" routerLinkActive="active">
               <span class="icon">A</span> Analytics
             </li>
+            <li routerLink="/pricing" routerLinkActive="active">
+              <span class="icon">$</span> Pricing
+            </li>
             <li routerLink="/erp-data" routerLinkActive="active">
               <span class="icon">E</span> ERP Data
             </li>

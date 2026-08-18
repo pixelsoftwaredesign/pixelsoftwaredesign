@@ -21,6 +21,7 @@ import { AuthService } from './services/auth.service';
             <li routerLink="/pos" routerLinkActive="active"><span class="icon">$</span> Point of Sale</li>
             <li routerLink="/hrm" routerLinkActive="active"><span class="icon">H</span> HRM</li>
             <li routerLink="/accounting" routerLinkActive="active"><span class="icon">A</span> Accounting</li>
+            <li routerLink="/pricing" routerLinkActive="active"><span class="icon">$</span> Pricing</li>
             <li routerLink="/crm-data" routerLinkActive="active"><span class="icon">C</span> CRM Data</li>
             <li routerLink="/settings" routerLinkActive="active"><span class="icon">S</span> Settings</li>
           </ul>
