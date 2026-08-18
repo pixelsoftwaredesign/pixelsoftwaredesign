@@ -8,6 +8,7 @@ import { ProjectsComponent } from './components/projects/projects.component';
 import { FinancesComponent } from './components/finances/finances.component';
 import { AnalyticsComponent } from './components/analytics/analytics.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { ErpDataComponent } from './components/erp-data/erp-data.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -18,5 +19,6 @@ export const routes: Routes = [
   { path: 'projects', component: ProjectsComponent, canActivate: [AuthGuard] },
   { path: 'finances', component: FinancesComponent, canActivate: [AuthGuard] },
   { path: 'analytics', component: AnalyticsComponent, canActivate: [AuthGuard] },
+  { path: 'erp-data', component: ErpDataComponent, canActivate: [AuthGuard] },
   { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] },
 ];

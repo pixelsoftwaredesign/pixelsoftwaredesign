@@ -1,5 +1,6 @@
 package com.pixelsoftwaredesign.pixmanager.config;
 
+import com.pixelsoftwaredesign.pixmanager.security.InternalApiKeyFilter;
 import com.pixelsoftwaredesign.pixmanager.security.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,10 +27,12 @@ import java.util.List;
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final InternalApiKeyFilter internalApiKeyFilter;
     private final UserDetailsService userDetailsService;
 
-    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter, UserDetailsService userDetailsService) {
+    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter, InternalApiKeyFilter internalApiKeyFilter, UserDetailsService userDetailsService) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        this.internalApiKeyFilter = internalApiKeyFilter;
         this.userDetailsService = userDetailsService;
     }
 
@@ -41,10 +44,12 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/h2-console/**").permitAll()
+                .requestMatchers("/api/internal/**").authenticated()
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authenticationProvider(authenticationProvider())
+            .addFilterBefore(internalApiKeyFilter, UsernamePasswordAuthenticationFilter.class)
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
             .headers(headers -> headers.frameOptions(frame -> frame.disable()));
 

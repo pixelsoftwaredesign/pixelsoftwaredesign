@@ -7,6 +7,7 @@ import { PosComponent } from './components/pos/pos.component';
 import { HrmComponent } from './components/hrm/hrm.component';
 import { AccountingComponent } from './components/accounting/accounting.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { CrmDataComponent } from './components/crm-data/crm-data.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -16,5 +17,6 @@ export const routes: Routes = [
   { path: 'pos', component: PosComponent, canActivate: [AuthGuard] },
   { path: 'hrm', component: HrmComponent, canActivate: [AuthGuard] },
   { path: 'accounting', component: AccountingComponent, canActivate: [AuthGuard] },
+  { path: 'crm-data', component: CrmDataComponent, canActivate: [AuthGuard] },
   { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] },
 ];
