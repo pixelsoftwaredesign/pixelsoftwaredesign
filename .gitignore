@@ -1,0 +1,30 @@
+# Java / Maven
+target/
+*.class
+*.jar
+*.war
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.settings/
+.project
+.classpath
+
+# Angular / Node
+pixmanager-frontend/node_modules/
+pixmanager-frontend/dist/
+pixmanager-frontend/.angular/
+pixerp-frontend/node_modules/
+pixerp-frontend/dist/
+pixerp-frontend/.angular/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+nohup.out
+/tmp/
