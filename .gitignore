@@ -28,3 +28,7 @@ Thumbs.db
 *.log
 nohup.out
 /tmp/
+
+# Docker
+.env
+postgres_data/

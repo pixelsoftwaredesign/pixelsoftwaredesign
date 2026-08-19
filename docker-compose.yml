@@ -1,0 +1,90 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: pixelsoftwaredesign-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: pixelsoftwaredesign
+      POSTGRES_USER: ${DB_USER:-pixelsoft}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-change_me_in_production}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-pixelsoft}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # PixManager Backend (CRM)
+  pixmanager-backend:
+    build:
+      context: ./pixmanager-backend
+      dockerfile: Dockerfile
+    container_name: pixmanager-backend
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/pixelsoftwaredesign
+      SPRING_DATASOURCE_USERNAME: ${DB_USER:-pixelsoft}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD:-change_me_in_production}
+      JWT_SECRET: ${JWT_SECRET:-pixelsoftwaredesign-shared-secret-key-2026-unified-auth}
+      INTERNAL_API_KEY: ${INTERNAL_API_KEY:-pixelsoft-internal-api-key-2026}
+      INTERNAL_API_PEER_URL: http://pixerp-backend:8081
+    ports:
+      - "8080:8080"
+
+  # PixERP Backend
+  pixerp-backend:
+    build:
+      context: ./pixerp-backend
+      dockerfile: Dockerfile
+    container_name: pixerp-backend
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/pixelsoftwaredesign
+      SPRING_DATASOURCE_USERNAME: ${DB_USER:-pixelsoft}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD:-change_me_in_production}
+      JWT_SECRET: ${JWT_SECRET:-pixelsoftwaredesign-shared-secret-key-2026-unified-auth}
+      INTERNAL_API_KEY: ${INTERNAL_API_KEY:-pixelsoft-internal-api-key-2026}
+      INTERNAL_API_PEER_URL: http://pixmanager-backend:8080
+    ports:
+      - "8081:8081"
+
+  # PixManager Frontend (CRM)
+  pixmanager-frontend:
+    image: nginx:alpine
+    container_name: pixmanager-frontend
+    restart: unless-stopped
+    volumes:
+      - ./pixmanager-frontend/dist/pixmanager-app:/usr/share/nginx/html:ro
+      - ./nginx/crm.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - pixmanager-backend
+    ports:
+      - "4200:80"
+
+  # PixERP Frontend
+  pixerp-frontend:
+    image: nginx:alpine
+    container_name: pixerp-frontend
+    restart: unless-stopped
+    volumes:
+      - ./pixerp-frontend/dist/pixerp-app:/usr/share/nginx/html:ro
+      - ./nginx/erp.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - pixerp-backend
+    ports:
+      - "4201:80"
+
+volumes:
+  postgres_data:
