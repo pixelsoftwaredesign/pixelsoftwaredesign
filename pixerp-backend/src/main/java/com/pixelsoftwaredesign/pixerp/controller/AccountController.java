@@ -10,7 +10,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/accounts")
-@CrossOrigin(origins = "http://localhost:4201")
 public class AccountController {
 
     private final AccountRepository accountRepository;

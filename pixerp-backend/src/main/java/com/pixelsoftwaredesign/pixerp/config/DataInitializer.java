@@ -42,11 +42,25 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        if (userRepository.count() > 0) return; // Skip if data already seeded
-        User admin = userRepository.save(new User("admin", "admin@pixelsoftwaredesign.com", passwordEncoder.encode("admin123"), User.Role.ADMIN));
-        User sales = userRepository.save(new User("sales1", "sales@pixelsoftwaredesign.com", passwordEncoder.encode("sales123"), User.Role.STAFF));
-        User pm = userRepository.save(new User("pm1", "pm@pixelsoftwaredesign.com", passwordEncoder.encode("pm123"), User.Role.MANAGER));
-        User cashier = userRepository.save(new User("cashier1", "cashier@pixelsoftwaredesign.com", passwordEncoder.encode("cashier123"), User.Role.CASHIER));
+        // Always ensure demo users have correct passwords
+        User admin = userRepository.findByEmail("admin@pixelsoftwaredesign.com").orElse(null);
+        if (admin == null) {
+            admin = userRepository.save(new User("admin", "admin@pixelsoftwaredesign.com", passwordEncoder.encode("admin123"), User.Role.ADMIN));
+            User sales = userRepository.save(new User("sales1", "sales@pixelsoftwaredesign.com", passwordEncoder.encode("sales123"), User.Role.STAFF));
+            User pm = userRepository.save(new User("pm1", "pm@pixelsoftwaredesign.com", passwordEncoder.encode("pm123"), User.Role.MANAGER));
+            User cashier = userRepository.save(new User("cashier1", "cashier@pixelsoftwaredesign.com", passwordEncoder.encode("cashier123"), User.Role.CASHIER));
+        } else {
+            // Reset passwords in case they got corrupted
+            admin.setPasswordHash(passwordEncoder.encode("admin123"));
+            userRepository.save(admin);
+            User sales = userRepository.findByEmail("sales@pixelsoftwaredesign.com").orElse(null);
+            if (sales != null) { sales.setPasswordHash(passwordEncoder.encode("sales123")); userRepository.save(sales); }
+            User pm = userRepository.findByEmail("pm@pixelsoftwaredesign.com").orElse(null);
+            if (pm != null) { pm.setPasswordHash(passwordEncoder.encode("pm123")); userRepository.save(pm); }
+            User cashier = userRepository.findByEmail("cashier@pixelsoftwaredesign.com").orElse(null);
+            if (cashier != null) { cashier.setPasswordHash(passwordEncoder.encode("cashier123")); userRepository.save(cashier); }
+            return; // Skip rest of seeding
+        }
 
         Category electronics = categoryRepository.save(new Category("Electronics", "Electronic devices and accessories"));
         Category clothing = categoryRepository.save(new Category("Clothing", "Apparel and fashion items"));

@@ -9,7 +9,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/interactions")
-@CrossOrigin(origins = "http://localhost:4200")
 public class InteractionController {
     private final InteractionService service;
     public InteractionController(InteractionService service) { this.service = service; }

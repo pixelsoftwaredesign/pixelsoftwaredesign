@@ -39,15 +39,30 @@ public class DataInitializer implements CommandLineRunner {
         this.interactionRepository = interactionRepository;
         this.passwordEncoder = passwordEncoder;
     }
-
     @Override
     public void run(String... args) {
-        if (userRepository.count() > 0) return; // Skip if data already seeded
-        // Users
-        User admin = userRepository.save(new User("admin", "admin@pixelsoftwaredesign.com", passwordEncoder.encode("admin123"), User.Role.ADMIN));
-        User sales = userRepository.save(new User("sales1", "sales@pixelsoftwaredesign.com", passwordEncoder.encode("sales123"), User.Role.SALES));
-        User pm = userRepository.save(new User("pm1", "pm@pixelsoftwaredesign.com", passwordEncoder.encode("pm123"), User.Role.MANAGER));
-        User dev = userRepository.save(new User("dev1", "dev@pixelsoftwaredesign.com", passwordEncoder.encode("dev123"), User.Role.DEVELOPER));
+        // Always ensure demo users have correct passwords
+        User admin = userRepository.findByEmail("admin@pixelsoftwaredesign.com").orElse(null);
+        User sales;
+        User pm;
+        User dev;
+        if (admin == null) {
+            admin = userRepository.save(new User("admin", "admin@pixelsoftwaredesign.com", passwordEncoder.encode("admin123"), User.Role.ADMIN));
+            sales = userRepository.save(new User("sales1", "sales@pixelsoftwaredesign.com", passwordEncoder.encode("sales123"), User.Role.SALES));
+            pm = userRepository.save(new User("pm1", "pm@pixelsoftwaredesign.com", passwordEncoder.encode("pm123"), User.Role.MANAGER));
+            dev = userRepository.save(new User("dev1", "dev@pixelsoftwaredesign.com", passwordEncoder.encode("dev123"), User.Role.DEVELOPER));
+        } else {
+            // Reset passwords in case they got corrupted
+            admin.setPasswordHash(passwordEncoder.encode("admin123"));
+            userRepository.save(admin);
+            User salesU = userRepository.findByEmail("sales@pixelsoftwaredesign.com").orElse(null);
+            if (salesU != null) { salesU.setPasswordHash(passwordEncoder.encode("sales123")); userRepository.save(salesU); }
+            User pmU = userRepository.findByEmail("pm@pixelsoftwaredesign.com").orElse(null);
+            if (pmU != null) { pmU.setPasswordHash(passwordEncoder.encode("pm123")); userRepository.save(pmU); }
+            User devU = userRepository.findByEmail("dev@pixelsoftwaredesign.com").orElse(null);
+            if (devU != null) { devU.setPasswordHash(passwordEncoder.encode("dev123")); userRepository.save(devU); }
+            return; // Skip rest of seeding
+        }
 
         // Companies - All Business Types
         Company techCorp = new Company("TechCorp Tunisia", "12345678/A/M/000", "Technology", "https://techcorp.tn", "Avenue Habib Bourguiba, Tunis");

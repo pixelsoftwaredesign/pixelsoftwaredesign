@@ -12,7 +12,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/journal-entries")
-@CrossOrigin(origins = "http://localhost:4201")
 public class JournalEntryController {
 
     private final JournalEntryRepository journalEntryRepository;
