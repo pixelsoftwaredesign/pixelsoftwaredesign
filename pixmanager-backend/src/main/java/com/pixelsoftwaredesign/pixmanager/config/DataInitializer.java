@@ -42,6 +42,7 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
+        if (userRepository.count() > 0) return; // Skip if data already seeded
         // Users
         User admin = userRepository.save(new User("admin", "admin@pixelsoftwaredesign.com", passwordEncoder.encode("admin123"), User.Role.ADMIN));
         User sales = userRepository.save(new User("sales1", "sales@pixelsoftwaredesign.com", passwordEncoder.encode("sales123"), User.Role.SALES));
