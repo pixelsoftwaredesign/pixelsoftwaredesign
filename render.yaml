@@ -1,11 +1,4 @@
 services:
-  # PostgreSQL Database
-  - type: postgresql
-    name: pixelsoftwaredesign-db
-    plan: free
-    databaseName: pixelsoftwaredesign
-    ipAllowList: []
-
   # PixManager Backend (CRM)
   - type: web
     name: pixmanager-backend
@@ -14,9 +7,7 @@ services:
     plan: free
     envVars:
       - key: SPRING_DATASOURCE_URL
-        fromDatabase:
-          name: pixelsoftwaredesign-db
-          property: connectionString
+        sync: false
       - key: SPRING_PROFILES_ACTIVE
         value: production
       - key: JWT_SECRET
@@ -24,9 +15,10 @@ services:
       - key: INTERNAL_API_KEY
         value: pixelsoft-internal-api-key-2026
       - key: INTERNAL_API_PEER_URL
-        value: https://pixerp-backend.onrender.com
+        sync: false
       - key: JAVA_OPTS
         value: "-Xmx256m -Xms256m"
+    healthCheckPath: /api/auth/login
 
   # PixERP Backend
   - type: web
@@ -36,9 +28,7 @@ services:
     plan: free
     envVars:
       - key: SPRING_DATASOURCE_URL
-        fromDatabase:
-          name: pixelsoftwaredesign-db
-          property: connectionString
+        sync: false
       - key: SPRING_PROFILES_ACTIVE
         value: production
       - key: JWT_SECRET
@@ -46,9 +36,10 @@ services:
       - key: INTERNAL_API_KEY
         value: pixelsoft-internal-api-key-2026
       - key: INTERNAL_API_PEER_URL
-        value: https://pixmanager-backend.onrender.com
+        sync: false
       - key: JAVA_OPTS
         value: "-Xmx256m -Xms256m"
+    healthCheckPath: /api/auth/login
 
   # PixManager Frontend (CRM)
   - type: static_site
