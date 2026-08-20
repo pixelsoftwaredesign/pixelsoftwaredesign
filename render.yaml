@@ -45,7 +45,7 @@ services:
   - type: static_site
     name: crm-frontend
     buildCommand: cd pixmanager-frontend && npm install && npx ng build --configuration=production
-    staticPublishPath: ./pixmanager-frontend/dist/pixmanager-app
+    staticPublishPath: ./pixmanager-frontend/dist/pixmanager-app/browser
     routes:
       - type: rewrite
         source: /*
@@ -55,7 +55,7 @@ services:
   - type: static_site
     name: erp-frontend
     buildCommand: cd pixerp-frontend && npm install && npx ng build --configuration=production
-    staticPublishPath: ./pixerp-frontend/dist/pixerp-app
+    staticPublishPath: ./pixerp-frontend/dist/pixerp-app/browser
     routes:
       - type: rewrite
         source: /*
